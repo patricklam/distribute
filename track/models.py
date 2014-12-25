@@ -15,8 +15,16 @@ class HoldingType(models.Model):
     COUNTRY_CHOICES = ((CA, 'CA'), (US, 'US'), (INTL, 'IN'))
     country = models.CharField(max_length=2,
                                choices=COUNTRY_CHOICES)
+    minimum_holding_period = models.IntegerField()
     def __unicode__(self):
         return "[{0.name}] {0.asset_class}/{0.country}".format(self)
+
+class Holding(models.Model):
+    amount = models.DecimalField(max_digits=11,decimal_places=2)
+    holding = models.ForeignKey('HoldingType')
+    purchase_date = models.DateField()
+    def __unicode__(self):
+        return "${0} of {1}".format(self.amount, self.holding.name)
 
 class AllocationRule(models.Model):
     percent = models.DecimalField(max_digits=4,decimal_places=2)
