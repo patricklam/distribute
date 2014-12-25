@@ -25,17 +25,26 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
+    <div class="container">
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     
-    <form action="{% url 'track:index' %}" class="form-calculator" method="post">
+    <form class="form-calculator" method="POST">
       {% csrf_token %}
       <label for="amount" class="sr-only">Amount to invest</label>
-      <input type="amount" id="inputEmail" class="form-control" placeholder="Amount to invest" required autofocus>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Calculate</button>
+      <input type="amount" name="amount" id="inputEmail" class="form-control" placeholder="Amount to invest" required autofocus>
+      <input class="btn btn-lg btn-primary btn-block" id="submit" type="submit" value="Calculate"/>
     </form>
 
-    <table>
-      {{ table_contents }}
+    {% if table_contents %}
+    <h2>Ideal distribution for {{ amount }} </h2>
+    <table class="table">
+      {% for r in table_contents %}
+      <tr>
+        <td>{{ r.0 }}</td> <td class="text-right"> {{ r.1 }} </td>
+      </tr>
+      {% endfor %}
     </table>
+    {% endif %}
+   </div>
   </body>
 </html>
