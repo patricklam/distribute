@@ -18,14 +18,14 @@
       <![endif]-->
   </head>
   <body>
-    <h1>Investments Calculator</h1>
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
     <div class="container">
+    <h1>Investments Calculator</h1>
+
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     
     <form class="form-calculator" method="POST">
@@ -38,9 +38,10 @@
     {% if ideal %}
     <h2>Raw Amounts: adding {{ new_amount }}, new total {{ total }}  </h2>
     <table class="table">
+      <tr><th>Holding</th><th class="text-right">now</th><th class="text-right">ideal</th></tr>
       {% for r in ideal %}
       <tr>
-        <td>{{ r.0 }}</td> <td class="text-right"> {{ r.1 }} </td> <td class="text-right"> {{ r.2 }} </td> <td class="text-right"> {{ r.3 }} </td>
+        <td>{{ r.0 }}</td> <td class="text-right"> {{ r.1 }} </td> <td class="text-right"> {{ r.2 }} </td>
       </tr>
       {% endfor %}
     </table>
@@ -48,12 +49,14 @@
     {% if max_amounts %}
     <h2>Account Maxima</h2>
     <table class="table">
-      {% for r in max_amounts %}
+      <tr><th>Account</th><th class="text-right">now</th><th class="text-right">max</th></tr>
+      {% for r in max_amounts.iteritems %}
       <tr>
-        <td>{{r.0}}</td> <td class="text-right">{{r.1}}</td>
+        <td>{{r.0}}</td> <td class="text-right">{{r.1.0}}</td> <td class="text-right">{{r.1.1}}</td>
       </tr>
       {% endfor %}
     </table>
+    {% endif %}
    </div>
   </body>
 </html>
