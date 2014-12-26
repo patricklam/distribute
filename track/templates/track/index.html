@@ -30,21 +30,30 @@
     
     <form class="form-calculator" method="POST">
       {% csrf_token %}
-      <label for="amount" class="sr-only">Amount to invest</label>
-      <input type="amount" name="amount" id="inputEmail" class="form-control" placeholder="Amount to invest" required autofocus>
+      <label for="new_amount" class="sr-only">Additional amount to invest</label>
+      <input type="new_amount" name="new_amount" id="inputEmail" class="form-control" placeholder="Additional amount to invest" required autofocus>
       <input class="btn btn-lg btn-primary btn-block" id="submit" type="submit" value="Calculate"/>
     </form>
 
-    {% if table_contents %}
-    <h2>Ideal distribution for {{ amount }} </h2>
+    {% if ideal %}
+    <h2>Raw Amounts: adding {{ new_amount }}, new total {{ total }}  </h2>
     <table class="table">
-      {% for r in table_contents %}
+      {% for r in ideal %}
       <tr>
-        <td>{{ r.0 }}</td> <td class="text-right"> {{ r.1 }} </td>
+        <td>{{ r.0 }}</td> <td class="text-right"> {{ r.1 }} </td> <td class="text-right"> {{ r.2 }} </td> <td class="text-right"> {{ r.3 }} </td>
       </tr>
       {% endfor %}
     </table>
     {% endif %}
+    {% if max_amounts %}
+    <h2>Account Maxima</h2>
+    <table class="table">
+      {% for r in max_amounts %}
+      <tr>
+        <td>{{r.0}}</td> <td class="text-right">{{r.1}}</td>
+      </tr>
+      {% endfor %}
+    </table>
    </div>
   </body>
 </html>

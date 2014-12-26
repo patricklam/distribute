@@ -5,7 +5,8 @@ class HoldingType(models.Model):
     # equity, bond, ...
     EQ = 'EQ'
     BD = 'BD'
-    ASSET_CLASS_CHOICES = ((EQ, 'equity'), (BD, 'bond'))
+    CS = '$$'
+    ASSET_CLASS_CHOICES = ((EQ, 'equity'), (BD, 'bond'), (CS, 'cash'))
     asset_class = models.CharField(max_length=2,
                                    choices=ASSET_CLASS_CHOICES)
     # CA, US, INTL
@@ -19,15 +20,38 @@ class HoldingType(models.Model):
     def __unicode__(self):
         return "[{0.name}] {0.asset_class}/{0.country}".format(self)
 
-class Holding(models.Model):
-    amount = models.DecimalField(max_digits=11,decimal_places=2)
-    holding = models.ForeignKey('HoldingType')
-    purchase_date = models.DateField()
-    def __unicode__(self):
-        return "${0} of {1}".format(self.amount, self.holding.name)
-
 class AllocationRule(models.Model):
     percent = models.DecimalField(max_digits=4,decimal_places=2)
-    holding = models.ForeignKey('HoldingType')
+    holding_type = models.ForeignKey('HoldingType')
     def __unicode__(self):
-        return "{0} @ {1}%".format(self.holding, self.percent)
+        return "{0} @ {1}%".format(self.holding_type, self.percent)
+
+class AccountType:
+    RRSP = 'RRSP'
+    TFSA = 'TFSA'
+    NR = 'NR'
+    ACCOUNT_TYPE_CHOICES = ((RRSP, 'rrsp'), (TFSA, 'TFSA'), (NR, 'NR'))
+
+class Account(models.Model):
+    name = models.CharField(max_length=20)
+    account_type = models.CharField(max_length=2,
+                                    choices=AccountType.ACCOUNT_TYPE_CHOICES)
+    can_add_money = models.BooleanField()
+    def __unicode__(self):
+        return "{0} ({1})".format(self.name, self.location)
+
+class Holding(models.Model):
+    amount = models.DecimalField(max_digits=11,decimal_places=2)
+    account = models.ForeignKey('Account')
+    holding_type = models.ForeignKey('HoldingType')
+    purchase_date = models.DateField()
+    def __unicode__(self):
+        return "${0} of {1}".format(self.amount, self.holding_type.name)
+
+class LocationRule(models.Model):
+    priority = models.IntegerField()
+    holding_type = models.ForeignKey('HoldingType')
+    account_type = models.CharField(max_length=2,
+                                    choices=AccountType.ACCOUNT_TYPE_CHOICES)
+    def __unicode__(self):
+        return "{0} ({1} -> {2})".format(self.priority, self.holding_type, self.account_type)
