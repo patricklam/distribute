@@ -57,6 +57,23 @@
       {% endfor %}
     </table>
     {% endif %}
+    {% if current_holdings_pa %}
+    <h2>Current Holdings</h2>
+    <table class="table">
+      <tr><th>Account</th><th class="text-right">now</th></tr>
+      {% for a in current_holdings_pa.iteritems %}
+      <tr>
+        <th>{{a.0}}</th>
+      </tr>
+      {% for h in a.1 %}
+      <tr>
+        <td>{{h.holding_type.name}}</td>
+        <td class="text-right">{{h.amount}}</td>
+      </tr>
+      {% endfor %}
+      {% endfor %}
+    </table>
+    {% endif %}
    </div>
   </body>
 </html>

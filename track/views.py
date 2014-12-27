@@ -21,12 +21,17 @@ def index(request):
             total += h.amount
 
     max_amounts = {}
-    for ht in Account.objects.all():
-        if ht.can_add_money:
+    current_holdings_per_account = {}
+    for a in Account.objects.all():
+        if a.can_add_money:
             m = "N/A"
         else:
-            m = amounts[ht]
-        max_amounts[ht] = (amounts[ht], m)
+            m = amounts[a]
+        max_amounts[a] = (amounts[a], m)
+        for ht in Holding.objects.filter(account=a):
+            if not (a in current_holdings_per_account):
+                current_holdings_per_account[a] = []
+            current_holdings_per_account[a].append(ht)
 
     ideal_investments = []
 
@@ -37,6 +42,7 @@ def index(request):
     context = {'new_amount' : new_amount,
                'total' : total,
                'ideal' : ideal_investments,
-               'max_amounts' : max_amounts}
+               'max_amounts' : max_amounts,
+               'current_holdings_pa' : current_holdings_per_account}
     return render(request, 'track/index.html', context)
 
