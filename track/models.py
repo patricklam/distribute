@@ -51,7 +51,7 @@ class Holding(models.Model):
 class HoldingLocationRule(models.Model):
     priority = models.IntegerField()
     holding_type = models.ForeignKey('HoldingType')
-    account_type = models.CharField(max_length=2,
+    account_type = models.CharField(max_length=4,
                                     choices=AccountType.ACCOUNT_TYPE_CHOICES)
     def __unicode__(self):
         return "{0} ({1} -> {2})".format(self.priority, self.holding_type, self.account_type)
