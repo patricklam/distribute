@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from track.models import HoldingTypeProportionRule, HoldingType, Holding, Account, HoldingLocationRule
 from decimal import *
+from datetime import date
 
 def index(request):
     new_amount = 0
@@ -47,24 +48,37 @@ def index(request):
         for a in Account.objects.filter(account_type = lr.account_type):
             remaining_amount = remaining_amount_to_allocate[lr.holding_type]
             allocated_amounts.setdefault(a, [])
+            h = Holding()
+            h.account = a
+            h.holding_type = lr.holding_type
+            h.purchase_date = date.today()
             if (room_left[a] == 'N/A' or room_left[a] > remaining_amount):
-                allocated_amounts[a].append((lr.holding_type, remaining_amount))
+                h.amount = remaining_amount
+                allocated_amounts[a].append((h, remaining_amount))
                 remaining_amount_to_allocate[lr.holding_type] = 0
                 if room_left[a] != 'N/A':
                     room_left[a] -= remaining_amount
             else:
-                allocated_amounts[a].append((lr.holding_type, room_left[a]))
+                h.amount = room_left[a]
+                allocated_amounts[a].append((h, room_left[a]))
                 remaining_amount_to_allocate[lr.holding_type] -= room_left[a]
                 if room_left[a] != 'N/A':
                     room_left[a] = 0
 
-    # todo merge allocated_amounts with current_holdings_per_account
+    for a in allocated_amounts:
+        for h in allocated_amounts[a]:
+            found = False
+            for idx, ch in enumerate(current_holdings_per_account[a]):
+                if ch[0].holding_type == h[0].holding_type:
+                    found = True
+                    current_holdings_per_account[a][idx] = (ch[0], ch[1] + h[1])
+            if not found and h[1] > 0:
+                current_holdings_per_account[a].append((h[0], h[1]))
 
     context = {'new_amount' : new_amount,
                'total' : total,
                'ideal' : ideal_investments,
                'max_amounts' : max_amounts,
-               'current_holdings_pa' : current_holdings_per_account,
-               'allocated_amounts' : allocated_amounts}
+               'current_holdings_pa' : current_holdings_per_account}
     return render(request, 'track/index.html', context)
 

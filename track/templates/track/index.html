@@ -75,23 +75,6 @@
       {% endfor %}
     </table>
     {% endif %}
-    {% if current_holdings_pa %}
-    <h2>Ideal per-account Holdings</h2>
-    <table class="table">
-      <tr><th>Account</th><th class="text-right">ideal</th></tr>
-      {% for a in allocated_amounts.iteritems %}
-      <tr>
-        <th>{{a.0}}</th>
-      </tr>
-      {% for h in a.1 %}
-      <tr>
-        <td>{{h.0.name}}</td>
-        <td class="text-right">{{h.1}}</td>
-      </tr>
-      {% endfor %}
-      {% endfor %}
-    </table>
-    {% endif %}
    </div>
   </body>
 </html>
