@@ -35,11 +35,11 @@
       <input class="btn btn-lg btn-primary btn-block" id="submit" type="submit" value="Calculate"/>
     </form>
 
-    {% if ideal %}
+    {% if raw %}
     <h2>Raw Amounts: adding {{ new_amount }}, new total {{ total }}  </h2>
     <table class="table">
       <tr><th>Holding</th><th class="text-right">now</th><th class="text-right">ideal</th></tr>
-      {% for r in ideal %}
+      {% for r in raw %}
       <tr>
         <td>{{ r.0 }}</td> <td class="text-right"> {{ r.1 }} </td> <td class="text-right"> {{ r.2 }} </td>
       </tr>
