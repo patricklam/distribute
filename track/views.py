@@ -90,18 +90,18 @@ def apply_allocation_rules(room_left, remaining_amount_to_allocate):
                     room_left[a] = 0
     return allocated_amounts
 
-def apply_allocations_to_accounts(allocated_amounts, current_holdings_per_account):
-    """ Update the current_holdings_per_account dict w/info from allocated_amounts. """
+def apply_allocations_to_accounts(allocated_amounts, current_holdings):
+    """ Update the current_holdings dict w/info from allocated_amounts. """
     for a in allocated_amounts:
         for h in allocated_amounts[a]:
             found = False
-            for idx, ch in enumerate(current_holdings_per_account[a]):
+            for idx, ch in enumerate(current_holdings[a]):
                 if ch[0].holding_type == h[0].holding_type:
                     found = True
-                    current_holdings_per_account[a][idx] = (ch[0], ch[1] + h[1])
+                    current_holdings[a][idx] = (ch[0], ch[1] + h[1])
             if not found and h[1] > 0:
                 h[0].amount = 0
-                current_holdings_per_account[a].append((h[0], h[1]))
+                current_holdings[a].append((h[0], h[1]))
 
 def index(request):
     new_amount = 0 #: amount of money to add
