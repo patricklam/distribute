@@ -35,11 +35,11 @@
       <input class="btn btn-lg btn-primary btn-block" id="submit" type="submit" value="Calculate"/>
     </form>
 
-    {% if raw %}
+    {% if raw_allocations %}
     <h2>Raw Amounts: adding {{ new_amount }}, new total {{ total }}  </h2>
     <table class="table">
       <tr><th>Holding</th><th class="text-right">now</th><th class="text-right">ideal</th></tr>
-      {% for r in raw %}
+      {% for r in raw_allocations %}
       <tr>
         <td>{{ r.0 }}</td> <td class="text-right"> {{ r.1 }} </td> <td class="text-right"> {{ r.2 }} </td>
       </tr>
@@ -57,11 +57,11 @@
       {% endfor %}
     </table>
     {% endif %}
-    {% if current_holdings_pa %}
+    {% if current_holdings %}
     <h2>Per-account Holdings</h2>
     <table class="table">
       <tr><th>Account</th><th class="text-right">now</th><th class="text-right">ideal</th></tr>
-      {% for a in current_holdings_pa.iteritems %}
+      {% for a in current_holdings.iteritems %}
       <tr>
         <th>{{a.0}}</th>
       </tr>
