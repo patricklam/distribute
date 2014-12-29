@@ -100,6 +100,7 @@ def apply_allocations_to_accounts(allocated_amounts, current_holdings_per_accoun
                     found = True
                     current_holdings_per_account[a][idx] = (ch[0], ch[1] + h[1])
             if not found and h[1] > 0:
+                h[0].amount = 0
                 current_holdings_per_account[a].append((h[0], h[1]))
 
 def index(request):
