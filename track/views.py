@@ -50,7 +50,6 @@ def calculate_current_holdings():
             if not (a in current_holdings):
                 current_holdings[a] = []
             current_holdings[a].append((ht, 0))
-    1/0
     return current_investments, current_holdings
 
 def calculate_raw_allocations(total, current_investments):
