@@ -1,5 +1,5 @@
 """
-Django settings for moneytracker project.
+Django settings for distribute project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -49,9 +49,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'moneytracker.urls'
+ROOT_URLCONF = 'distribute.urls'
 
-WSGI_APPLICATION = 'moneytracker.wsgi.application'
+WSGI_APPLICATION = 'distribute.wsgi.application'
 
 
 # Database
