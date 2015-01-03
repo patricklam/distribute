@@ -55,6 +55,8 @@ def calculate_current_holdings():
 def calculate_raw_allocations(total, current_investments):
     """ Following the HoldingTypeProportionRules, returns how much money to put in each holding. 
 
+    Precondition: ar.percents sum to 100. (So, you're not allowed to test behaviour when that precondition isn't met.)
+
     remaining_amount_to_allocate gets updated by apply_allocation_rules. 
     """
     raw_allocations = [] #: according to the rules, how much of each holding (1) currently held; (2) to hold
