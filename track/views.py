@@ -97,14 +97,15 @@ def apply_allocations_to_accounts(allocated_amounts, current_holdings):
     for a in allocated_amounts:
         for h in allocated_amounts[a]:
             found = False
-            for idx, ch in enumerate(current_holdings[a]):
-                if ch[0].holding_type == h[0].holding_type:
-                    found = True
-                    current_holdings[a][idx] = (ch[0], ch[1] + h[1])
+            if a in current_holdings:
+                for idx, ch in enumerate(current_holdings[a]):
+                    if ch[0].holding_type == h[0].holding_type:
+                        found = True
+                        current_holdings[a][idx] = (ch[0], ch[1] + h[1])
             if not found and h[1] > 0:
-                h[0].amount = 0
                 current_holdings[a].append((h[0], h[1]))
-        current_holdings[a].sort(key=lambda x: x[0].holding_type.name)
+        if a in current_holdings:
+            current_holdings[a].sort(key=lambda x: x[0].holding_type.name)
 
 def index(request):
     new_amount = 0 #: amount of money to add
