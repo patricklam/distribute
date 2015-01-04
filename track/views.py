@@ -103,6 +103,8 @@ def apply_allocations_to_accounts(allocated_amounts, current_holdings):
                         found = True
                         current_holdings[a][idx] = (ch[0], ch[1] + h[1])
             if not found and h[1] > 0:
+                if not (a in current_holdings):
+                    current_holdings[a] = []
                 current_holdings[a].append((h[0], h[1]))
         if a in current_holdings:
             current_holdings[a].sort(key=lambda x: x[0].holding_type.name)
