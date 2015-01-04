@@ -74,10 +74,7 @@ def apply_allocation_rules(room_left, remaining_amount_to_allocate):
         for a in Account.objects.filter(account_type = lr.account_type):
             remaining_amount = remaining_amount_to_allocate[lr.holding_type]
             allocated_amounts.setdefault(a, [])
-            h = Holding()
-            h.account = a
-            h.holding_type = lr.holding_type
-            h.purchase_date = date.today()
+            h = Holding(account=a, holding_type=lr.holding_type, purchase_date=date.today())
             if (room_left[a] == 'N/A' or room_left[a] > remaining_amount):
                 h.amount = remaining_amount
                 allocated_amounts[a].append((h, remaining_amount))
