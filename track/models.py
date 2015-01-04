@@ -21,7 +21,7 @@ class HoldingType(models.Model):
         return "[{0.name}] {0.asset_class}/{0.country}".format(self)
 
 class HoldingTypeProportionRule(models.Model):
-    percent = models.DecimalField(max_digits=4,decimal_places=2)
+    percent = models.DecimalField(max_digits=5,decimal_places=2)
     holding_type = models.ForeignKey('HoldingType')
     def __unicode__(self):
         return "{0} @ {1}%".format(self.holding_type, self.percent)
